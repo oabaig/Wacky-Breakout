@@ -8,6 +8,7 @@ TagManager:
   - Score
   - NumBalls
   - PauseMenu
+  - Block
   layers:
   - Default
   - TransparentFX

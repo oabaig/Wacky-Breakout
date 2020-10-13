@@ -34,7 +34,7 @@ public class ConfigurationData
     static float speedIncreaseMult = 2;
     static float speedDecreaseMult = 0.5f;
 
-    static float freezerBlockDuration = 2f;
+    static float freezerBlockDuration = 0.5f;
     static float speedUpBlockDuration = 2f;
     #endregion
 

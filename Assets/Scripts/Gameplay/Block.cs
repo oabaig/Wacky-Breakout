@@ -12,10 +12,15 @@ public class Block : MonoBehaviour
     protected int pointValue;
     AddPointsEvent AddPointsEvent;
 
+    BlockDestroyed blockDestroyed;
+
     virtual protected void Start()
     {
         AddPointsEvent = new AddPointsEvent();
         EventManager.AddPointsEventInvoker(this);
+
+        blockDestroyed = new BlockDestroyed();
+        EventManager.AddBlockDestroyedInvokers(this);
     }
 
     virtual protected void OnCollisionEnter2D(Collision2D collision)
@@ -23,6 +28,7 @@ public class Block : MonoBehaviour
         if (collision.gameObject.tag == "Ball")
         {
             AddPointsEvent.Invoke(pointValue);
+            blockDestroyed.Invoke();
             Destroy(gameObject);
         }
     }
@@ -30,5 +36,10 @@ public class Block : MonoBehaviour
     public void AddPointsEventListener(UnityAction<int> listener)
     {
         AddPointsEvent.AddListener(listener);
+    }
+
+    public void AddBlockDestroyedListener(UnityAction listener)
+    {
+        blockDestroyed.AddListener(listener);
     }
 }

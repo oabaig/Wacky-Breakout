@@ -24,6 +24,12 @@ public static class EventManager
     static List<Ball> ballDiedEventInvokers = new List<Ball>();
     static List<UnityAction> ballDiedEventListeners = new List<UnityAction>();
 
+    static List<HUD> lastBallLostInvokers = new List<HUD>();
+    static List<UnityAction> lastBallLostListeners = new List<UnityAction>();
+
+    static List<Block> blockDestroyedInvokers = new List<Block>();
+    static List<UnityAction> blockDestroyedListeners = new List<UnityAction>();
+
     #region methods
     /// <summary>
     /// Adds the given script as a freezer effect invoker
@@ -136,6 +142,42 @@ public static class EventManager
         foreach(Ball invoker in ballDiedEventInvokers)
         {
             invoker.AddReduceBallsEventListener(listner);
+        }
+    }
+
+    public static void AddLastBallLostInvokers(HUD invoker)
+    {
+        lastBallLostInvokers.Add(invoker);
+        foreach(UnityAction listener in lastBallLostListeners)
+        {
+            invoker.AddLastBallLostBallEventListener(listener);
+        }
+    }
+
+    public static void AddLastBallLostListeners(UnityAction listener)
+    {
+        lastBallLostListeners.Add(listener);
+        foreach(HUD invoker in lastBallLostInvokers)
+        {
+            invoker.AddLastBallLostBallEventListener(listener);
+        }
+    }
+
+    public static void AddBlockDestroyedInvokers(Block invoker)
+    {
+        blockDestroyedInvokers.Add(invoker);
+        foreach(UnityAction listener in blockDestroyedListeners)
+        {
+            invoker.AddBlockDestroyedListener(listener);
+        }
+    }
+
+    public static void AddBlockDestroyedListeners(UnityAction listener)
+    {
+        blockDestroyedListeners.Add(listener);
+        foreach(Block invoker in blockDestroyedInvokers)
+        {
+            invoker.AddBlockDestroyedListener(listener);
         }
     }
     #endregion

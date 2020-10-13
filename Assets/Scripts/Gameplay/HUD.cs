@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class HUD : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class HUD : MonoBehaviour
     const string ballsLeftPrefix = "Balls Left: ";
 
     static int ballsLeft;
+
+    LastBallLost lastBallLost;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,9 @@ public class HUD : MonoBehaviour
 
         EventManager.AddPointsEventListener(AddScore);
         EventManager.AddReduceBallsEventListener(DecrementBalls);
+
+        lastBallLost = new LastBallLost();
+        EventManager.AddLastBallLostInvokers(this);
     }
 
     // Update is called once per frame
@@ -33,6 +39,8 @@ public class HUD : MonoBehaviour
     {
         scoreText.text = scorePrefix + score;
         ballsLeftText.text = ballsLeftPrefix + ballsLeft;
+
+        
     }
 
     /// <summary>
@@ -51,5 +59,14 @@ public class HUD : MonoBehaviour
     void DecrementBalls()
     {
         ballsLeft--;
+        if (ballsLeft <= 0)
+        {
+            lastBallLost.Invoke();
+        }
+    }
+
+    public void AddLastBallLostBallEventListener(UnityAction listener)
+    {
+        lastBallLost.AddListener(listener);
     }
 }
